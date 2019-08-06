@@ -39,6 +39,7 @@ KATA_PACKAGES = [
 
 
 @when_not('kata.installed')
+@when_not('endpoint.untrusted.departed')
 def install_kata():
     """
     Install the Kata container runtime.
