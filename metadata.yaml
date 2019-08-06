@@ -1,0 +1,27 @@
+name: kata
+summary: Kata untrusted container runtime subordinate
+maintainers:
+  - Joe Borg <joseph.borg@canonical.com>
+description: |
+  Kata Containers is an open source community working to build a secure
+  container runtime with lightweight virtual machines that feel and perform
+  like containers, but provide stronger workload isolation using hardware
+  virtualization technology as a second layer of defense.
+tags:
+  - containers
+series:
+  - bionic
+subordinate: true
+requires:
+  containerd:
+    interface: container-runtime
+    scope: container
+  untrusted:
+    interface: untrusted-container-runtime
+    scope: container
+resources:
+  kata-archive:
+    type: file
+    filename: kata-archive.tar.gz
+    description: Offline archive of kata
+

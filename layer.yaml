@@ -1,0 +1,6 @@
+repo: https://github.com/charmed-kubernetes/charm-kata
+includes:
+  - 'layer:basic'
+  - 'layer:debug'
+  - 'interface:container-runtime'
+  - 'interface:untrusted-container-runtime'
