@@ -96,7 +96,7 @@ def purge_kata():
     """
     status_set('maintenance', 'Purging Kata')
 
-    apt_purge(KATA_PACKAGES, fatal=True)
+    apt_purge(KATA_PACKAGES, fatal=False)
 
     source = '/etc/apt/sources.list.d/kata-containers.list'
     if os.path.isfile(source):
