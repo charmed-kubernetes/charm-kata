@@ -26,8 +26,7 @@ from charmhelpers.fetch import (
 
 from charmhelpers.core.hookenv import (
     status_set,
-    resource_get,
-    env_proxy_settings
+    resource_get
 )
 
 
@@ -121,4 +120,3 @@ def publish_config():
         name='kata',
         binary_path='/usr/bin/kata-runtime'
     )
-
