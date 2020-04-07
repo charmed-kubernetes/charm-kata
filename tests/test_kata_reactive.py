@@ -21,3 +21,12 @@ def test_purge_kata():
 def test_publist_config():
     """Assert publish_config is a method."""
     assert callable(kata.publish_config)
+
+
+def test_series_upgrade():
+    """Assert status is set during series upgrade."""
+    assert kata.status_set.call_count == 0
+    kata.pre_series_upgrade()
+    assert kata.status_set.call_count == 1
+    kata.post_series_upgrade()
+    assert kata.status_set.call_count == 2

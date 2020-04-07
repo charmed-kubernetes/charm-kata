@@ -13,7 +13,8 @@ from charms.reactive import (
     when_not,
     set_state,
     remove_state,
-    endpoint_from_flag
+    endpoint_from_flag,
+    hook,
 )
 
 from charmhelpers.fetch import (
@@ -120,3 +121,15 @@ def publish_config():
         name='kata',
         binary_path='/usr/bin/kata-runtime'
     )
+
+
+@hook('pre-series-upgrade')
+def pre_series_upgrade():
+    """Set status during series upgrade."""
+    status_set('blocked', 'Series upgrade in progress')
+
+
+@hook('post-series-upgrade')
+def post_series_upgrade():
+    """Reset status to active after series upgrade."""
+    status_set('active', 'Kata runtime available')
