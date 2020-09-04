@@ -4,3 +4,4 @@ includes:
   - 'layer:debug'
   - 'interface:container-runtime'
   - 'interface:untrusted-container-runtime'
+  - 'layer:status'

@@ -13,7 +13,8 @@ from charms.reactive import (
     when_not,
     set_state,
     remove_state,
-    endpoint_from_flag
+    endpoint_from_flag,
+    hook,
 )
 
 from charmhelpers.fetch import (
@@ -25,9 +26,10 @@ from charmhelpers.fetch import (
 )
 
 from charmhelpers.core.hookenv import (
-    status_set,
     resource_get
 )
+
+from charms.layer import status
 
 
 KATA_PACKAGES = [
@@ -56,7 +58,7 @@ def install_kata():
     archive = resource_get('kata-archive')
 
     if not archive or os.path.getsize(archive) == 0:
-        status_set('maintenance', 'Installing Kata via apt')
+        status.maintenance('Installing Kata via apt')
         gpg_key = requests.get(
             'http://download.opensuse.org/repositories/home:/katacontainers:/'
             'releases:/{}:/master/x{}/Release.key'.format(arch, release)).text
@@ -73,7 +75,7 @@ def install_kata():
         apt_install(KATA_PACKAGES)
 
     else:
-        status_set('maintenance', 'Installing Kata via resource')
+        status.maintenance('Installing Kata via resource')
         unpack = '/tmp/kata-debs'
 
         if not os.path.isdir(unpack):
@@ -82,7 +84,7 @@ def install_kata():
         check_call(['tar', '-xvf', archive, '-C', unpack])
         check_call('apt-get install -y {}/*.deb'.format(unpack), shell=True)
 
-    status_set('active', 'Kata runtime available')
+    status.active('Kata runtime available')
     set_state('kata.installed')
 
 
@@ -93,7 +95,7 @@ def purge_kata():
 
     :return: None
     """
-    status_set('maintenance', 'Purging Kata')
+    status.maintenance('Purging Kata')
 
     apt_purge(KATA_PACKAGES, fatal=False)
 
@@ -120,3 +122,15 @@ def publish_config():
         name='kata',
         binary_path='/usr/bin/kata-runtime'
     )
+
+
+@hook('pre-series-upgrade')
+def pre_series_upgrade():
+    """Set status during series upgrade."""
+    status.blocked('Series upgrade in progress')
+
+
+@hook('post-series-upgrade')
+def post_series_upgrade():
+    """Reset status to active after series upgrade."""
+    status.active('Kata runtime available')
