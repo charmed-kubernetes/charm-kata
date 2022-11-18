@@ -11,9 +11,8 @@ docs: https://discourse.charmhub.io/t/kata-docs-index/6212
 tags:
   - containers
 series:
-  - focal
   - jammy
-  - bionic
+  - focal
 subordinate: true
 requires:
   containerd:
