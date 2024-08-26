@@ -1,6 +1,5 @@
+from urllib.request import urlopen
 import os
-import requests
-
 from subprocess import check_call, check_output
 
 from charmhelpers.core import host
@@ -47,11 +46,13 @@ def install_kata():
 
     if not archive or os.path.getsize(archive) == 0:
         status.maintenance("Installing Kata via apt")
-        gpg_key = requests.get(
+
+        with urlopen(
             "http://download.opensuse.org/repositories/home:/katacontainers:/"
             # wokeignore:rule=master
             "releases:/{}:/master/x{}/Release.key".format(arch, release)
-        ).text
+        ) as response:
+            gpg_key = response.read().decode()
         import_key(gpg_key)
 
         with open("/etc/apt/sources.list.d/kata-containers.list", "w") as f:
