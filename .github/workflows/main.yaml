@@ -4,14 +4,18 @@ on: [pull_request]
 jobs:
   call-inclusive-naming-check:
     name: Inclusive naming
-    uses: canonical-web-and-design/Inclusive-naming/.github/workflows/woke.yaml@main
+    uses: canonical/inclusive-naming/.github/workflows/woke.yaml@main
     with:
       fail-on-error: "true"
 
   validate-wheelhouse:
     name: Validate Wheelhouse
     uses: charmed-kubernetes/workflows/.github/workflows/validate-wheelhouse.yaml@main
+    with:
+      python: "['3.8', '3.10']"
 
   lint-unit:
     name: Lint Unit
     uses: charmed-kubernetes/workflows/.github/workflows/lint-unit.yaml@main
+    with:
+      python: "['3.8', '3.10', '3.12']"
