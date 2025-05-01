@@ -3,12 +3,13 @@ import subprocess
 from pathlib import Path
 
 from charms.reactive import (
-    when,
-    when_not,
-    set_state,
-    remove_state,
     endpoint_from_flag,
     hook,
+    is_flag_set,
+    remove_state,
+    set_state,
+    when,
+    when_not,
 )
 
 from charmhelpers.core import hookenv
@@ -44,6 +45,18 @@ def check_kata_runtime():
         hookenv.log(f"Error checking kata-runtime: {e}", hookenv.ERROR)
         return False
     return True
+
+
+def check_kata_version() -> str:
+    """Check the version of the Kata runtime."""
+    try:
+        version_str = subprocess.check_output(
+            ["kata-runtime", "version"], text=True
+        ).splitlines()[0]
+        return version_str.split(":")[-1].strip()
+    except subprocess.CalledProcessError as e:
+        hookenv.log(f"Error checking kata-runtime version: {e}", hookenv.ERROR)
+        return ""
 
 
 @when_not("kata.installed")
@@ -88,7 +101,14 @@ def install_kata():
         status.blocked("Kata runtime not installed")
         return
 
-    status.active("Kata runtime available")
+    if version := check_kata_version():
+        if is_flag_set("leadership.is_leader"):
+            hookenv.application_version_set(version)
+    else:
+        status.blocked("Error checking kata-runtime version")
+        return
+
+    status.active(f"Kata runtime available ({version})")
     set_state("kata.installed")
 
 
@@ -118,7 +138,7 @@ def publish_config():
     :return: None
     """
     endpoint = endpoint_from_flag("endpoint.untrusted.joined")
-    endpoint.set_config(name="kata", binary_path="/usr/bin/kata-runtime")
+    endpoint.set_config(name="kata", binary_path=KATA_PATHS[1])
 
 
 @hook("pre-series-upgrade")

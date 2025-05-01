@@ -2,7 +2,8 @@ name: kata
 display-name: Kata
 summary: Kata untrusted container runtime subordinate
 maintainers:
-  - Joe Borg <joseph.borg@canonical.com>
+  - Adam Dyess <adam.dyess@canonical.com>
+  - Mateo Florido <mateo.florido@canonical.com>
 description: |
   Kata Containers is an open source community working to build a secure
   container runtime with lightweight virtual machines that feel and perform
