@@ -1,11 +1,12 @@
 from reactive import kata
+from pathlib import Path
 
 
 def test_packages_list():
     """Assert KATA_PACKAGES is a list of strings."""
-    assert isinstance(kata.KATA_PACKAGES, list)
-    for item in kata.KATA_PACKAGES:
-        assert isinstance(item, str)
+    assert isinstance(kata.KATA_PATHS, list)
+    for item in kata.KATA_PATHS:
+        assert isinstance(item, Path)
 
 
 def test_install_kata():

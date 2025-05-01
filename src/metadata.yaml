@@ -23,7 +23,13 @@ requires:
     interface: untrusted-container-runtime
     scope: container
 resources:
+  kata-manager:
+    type: file
+    filename: kata-manager.sh
+    description: |
+      Script for installing kata sourced from
+      https://raw.githubusercontent.com/kata-containers/kata-containers/main/utils/kata-manager.sh
   kata-archive:
     type: file
-    filename: kata-archive.tar.gz
-    description: Offline archive of kata
+    filename: kata-static.tar.xz
+    description: Offline release of kata
