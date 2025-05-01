@@ -8,14 +8,8 @@ jobs:
     with:
       fail-on-error: "true"
 
-  validate-wheelhouse:
-    name: Validate Wheelhouse
-    uses: charmed-kubernetes/workflows/.github/workflows/validate-wheelhouse.yaml@main
-    with:
-      python: "['3.8', '3.10']"
-
   lint-unit:
     name: Lint Unit
     uses: charmed-kubernetes/workflows/.github/workflows/lint-unit.yaml@main
     with:
-      python: "['3.8', '3.10', '3.12']"
+      python: "['3.10', '3.12']"
