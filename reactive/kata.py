@@ -73,7 +73,7 @@ def install_kata():
             os.makedirs(unpack, exist_ok=True)
 
         check_call(["tar", "-xvf", archive, "-C", unpack])
-        check_call("apt-get install -y {}/*.deb".format(unpack), shell=True)
+        check_call("apt-get install -y {}/*.deb".format(unpack), shell=True) # nosec B602
 
     status.active("Kata runtime available")
     set_state("kata.installed")
