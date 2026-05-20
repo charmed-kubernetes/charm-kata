@@ -21,6 +21,7 @@ requires:
   untrusted:
     interface: untrusted-container-runtime
     scope: container
+    optional: true
 resources:
   kata-archive:
     type: file
